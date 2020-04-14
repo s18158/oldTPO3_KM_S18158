@@ -22,6 +22,8 @@ public class Server {
   @SuppressWarnings("unused")
   public static void main(String[] args) throws IOException {
 
+    boolean running = true;
+
     // Selector: multiplexer of SelectableChannel objects
     Selector selector = Selector.open();
 
@@ -39,7 +41,7 @@ public class Server {
     SelectionKey selectionKey = socketChannel.register(selector, ops, null);
 
     // Keep server running
-    while(true){
+    while(running){
 
       log("waiting");
       // Selects a set of keys whose corresponding channels are ready for I/O operations
@@ -78,6 +80,8 @@ public class Server {
           if (rslt.equals("Luigi?")){
 
             client.close();
+            log("end");
+            running = false;
 
           }
 
