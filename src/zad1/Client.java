@@ -15,6 +15,8 @@ import java.util.ArrayList;
 
 public class Client {
 
+  private static final int BUFFER_SIZE = 2048;
+
   @SuppressWarnings("unused")
   public static void main(String[] args) throws IOException, InterruptedException {
 
@@ -37,11 +39,18 @@ public class Client {
       byte[] msg = new String(s).getBytes();
       ByteBuffer buffer = ByteBuffer.wrap(msg);
       client.write(buffer);
+      Thread.sleep(100);
+      ByteBuffer readBuffer = ByteBuffer.allocate(BUFFER_SIZE);
+      client.read(readBuffer);
 
       log("sending: " + s);
       buffer.clear();
 
-      Thread.sleep(3000);
+      String result = new String(readBuffer.array()).trim();
+      System.out.println(s);
+
+
+      Thread.sleep(400);
 
     }
 
